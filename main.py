@@ -13,17 +13,12 @@ import validators
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 
-# python main.py "https://www.volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=8&xnumnuts=5203" "nachod.csv"
-
-# ověřit procenta v csv zadane ve formátu "60,17"
-
 # NAČTENÍ ARGUMENTŮ
 def zpracuj_argumenty():
     """Zkontroluje a načte vstupní argumenty programu."""
     if len(sys.argv) != 3:
         print("Chyba: Musíte zadat 2 argumenty! \nZadejte: python skript.py 'platná URL' 'název_souboru.csv'")
         sys.exit("Ukončuji program!")
-        
 
     vstupni_url = sys.argv[1]
     vystupni_soubor = sys.argv[2]
@@ -65,10 +60,6 @@ def stahni_odkazy_url(url):
             # Kontrola duplicity po úpravě odkazu
             if upraveny_odkaz not in platne_odkazy:
                 platne_odkazy.append(upraveny_odkaz)
-
-            # ######## Přerušení smyčky po získání 6 odkazů - debugging ########
-            # if len(platne_odkazy) >= 6:
-            #     break
     return platne_odkazy
 
 def uprav_absolutni_cestu_odkazu(odkaz):
@@ -87,7 +78,7 @@ def uloz_nazev_obce(soup):
     """Najde a vrátí název obce v požadovaném formátu."""
     if soup:
         try:
-            nadpis_obce = soup.find_all("h3")[2].text.strip().replace("Obec :", "", 1)
+            nadpis_obce = soup.find_all("h3")[2].text.strip().replace("Obec: ", "")
             return nadpis_obce
         except IndexError:
             print("Nepodařilo se najít název obce.")
@@ -145,7 +136,7 @@ def zpracuj_souhrnne_udaje(souhrnna_tabulka):
         return []
 
     # Seznam slovníků – každý slovník obsahuje jen jeden údaj
-    # replace("\xa0", "") - odstrané mezery v číslech, které způsobují chybu v číslech
+    # replace("\xa0", "") - odstraní mezery v číslech, které místo čísla vytvářejí string
     udaje_list = [
         {"volebni_ucast_%": td_bunky[5].get_text(strip=True).replace("\xa0", "")},
         {"volici_v_seznamu": int(td_bunky[3].get_text(strip=True).replace("\xa0", ""))},
@@ -175,12 +166,12 @@ def uloz_udaje_politickych_stran(tabulka):
 # HLAVNÍ SCRAPER FUNKCE
 def scraper_dat(url):
     """Funkce pro získání a zpracování výsledků z dané URL."""
-    print(f"STAHUJI DATA Z VYBRANÉHO URL: {url}")
+    print(f"STAHUJI DATA Z VYBRANÉ URL:\n{url}")
     odkazy = stahni_odkazy_url(url)
 
     vysledky = []
 
-    for odkaz in tqdm(odkazy, desc="CELKEM STAŽENO", bar_format="{l_bar}{bar:30}{n_fmt}/{total_fmt}"): # tqdm - funkce pro vizualizaci průběhu stahování (progres bar)
+    for odkaz in tqdm(odkazy, desc="CELKEM STAŽENO", bar_format="{l_bar}{bar:30}{n_fmt}/{total_fmt} ODKAZŮ"): # tqdm - funkce pro vizualizaci průběhu stahování (progres bar)
         udaje_o_obci = uloz_udaje_obce(odkaz)
         if udaje_o_obci:
             soup = parsuj_html(odkaz)
