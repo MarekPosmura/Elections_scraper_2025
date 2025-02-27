@@ -13,7 +13,7 @@ Před spuštěním projektu je nutné vytvořit a aktivovat **virtuální prost�
 1. **Otevřete terminál** a přejděte do složky s projektem.
 2. **Vytvořte virtuální prostředí**:  
    ```sh
-   python -m venv venv
+      python -m venv venv
 
 3. **Aktivujte virtuální prostředí**:<br>
       Windows:
@@ -28,7 +28,7 @@ Před spuštěním projektu je nutné vytvořit a aktivovat **virtuální prost�
       ```sh
       pip install -r requirements.txt
 
-▶️ Spuštění programu
+## ▶️ Spuštění programu
 
 Program lze spustit pomocí příkazu v terminálu. Je nutné zadat dva povinné argumenty. Oba argumenty je potřeba ohraničit jednoduchými nebo dvojitými uvozovkami:
 
@@ -40,7 +40,7 @@ Program lze spustit pomocí příkazu v terminálu. Je nutné zadat dva povinné
 python main.py "https://www.volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=8&xnumnuts=5203" "vysledky.csv"
 ```
 
-📊 Ukázka výstupu
+## 📊 Ukázka výstupu
 
 Po úspěšném spuštění se zobrazí průběh stahování dat a vytvoří se CSV soubor s volebními výsledky.<br>
 Terminálový výstup:
@@ -51,7 +51,7 @@ UKLÁDÁM DATA DO SOUBORU: vysledky.csv
 PROGRAM ÚSPĚŠNĚ VYTVOŘIL CSV SOUBOR.
 UKONČUJI PROGRAM ELECTION SCRAPER.
 ```
-📄 Ukázka výstupu CSV souboru:
+## 📄 Ukázka výstupu CSV souboru:
 ```
 kod_obce,obec,volebni_ucast_%,volici_v_seznamu,vydane_obalky,odevzdane_obalky,platne_hlasy ...
 547786,Adršpach,"59,95",437,262,262,262 ...
